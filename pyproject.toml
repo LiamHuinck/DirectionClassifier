@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "torch==2.11.*",
+    "torchvision>=0.26.0",
+]
 
 
 [tool.black]
@@ -23,3 +26,12 @@ exclude = '''
   | dist
 )/
 '''
+
+[[tool.uv.index]]
+url = "https://download.pytorch.org/whl/cu130"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "ty>=0.0.26",
+]
