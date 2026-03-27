@@ -9,7 +9,5 @@ def test(test):
 
 
 
-
-    
     result = test
     return result
