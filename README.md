@@ -136,7 +136,7 @@ model_info = mlflow.pytorch.log_model(model, name="final_model")
 
 We can open the UI after running the server command as described earlier by going the `http://localhost:5000/`. This puts you on the following landing page:
 
-![alt text](https://github.com/LiamHuinck/DirectionClassifier/blob/%232-Structure-project-files-and-example/imagesReadme/MLflow/MLflowLandingpage.jpg "Landing page")
+![alt text](https://github.com/LiamHuinck/DirectionClassifier/blob/develop/imagesReadme/MLflow/MLflowLandingpage.jpg "Landing page")
 
 The red box on the top left is to assure you are not using the genAI view, since we are working with model training and not genAI. If you ran the code you should see the Deep Learning Experiment and when you click on it it should bring you to the runs overview. 
 
