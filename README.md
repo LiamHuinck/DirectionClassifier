@@ -41,7 +41,7 @@ The repository has a src folder that contains all the functions used for the pro
 
 ***DISCLAIMER, THE CODE BELOW IS NOT MINE, I AM JUST USING IT AS AN EXAMPLE TO LATER INCORPERATE AND THIS IS TO DOCUMENT THE PROCESS FOR MYSELF THE OFFICIAL MLFLOW GUIDE CAN BE FOUND HERE https://mlflow.org/docs/latest/ml/getting-started/deep-learning/***
 
-We can start a MLflow local server using the following command in a bash script: ``` mlflow server --port 5000```
+We can start a MLflow local server using the following command in a bash script: `mlflow server --port 5000`
 This will start a local hosted server with the MLflow UI that lets you explore the trained model's metrics as well as other information.
 
 (Should be updated when its more clear what can be done with MLflow)
@@ -128,9 +128,17 @@ A log checkoutpoint is introduced at the end of each epoch, this can later be ch
 mlflow.pytorch.log_model(model, name=f"checkpoint_{epoch}")
 ```
 
-
 Finally we log the final trained model using the code below:
 ```python
 # Log the final trained model
 model_info = mlflow.pytorch.log_model(model, name="final_model")
 ```
+
+We can open the UI after running the server command as described earlier by going the `http://localhost:5000/`. This puts you on the following landing page:
+
+![alt text](https://github.com/LiamHuinck/DirectionClassifier/blob/%232-Structure-project-files-and-example/imagesReadme/MLflow/MLflowLandingpage.jpg "Landing page")
+
+The red box on the top left is to assure you are not using the genAI view, since we are working with model training and not genAI. If you ran the code you should see the Deep Learning Experiment and when you click on it it should bring you to the runs overview. 
+
+
+More about the statistics found here will be added later.
