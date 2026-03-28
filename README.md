@@ -1,6 +1,8 @@
 # This repository is about a direction classifier to play a game
 The idea is that using only head movements one should be able to provide enough distinct inputs for a simple game, removing the need for special controllers if conventional inputs are not suitable. I have made this project a while ago, but this was using Tensorflow, a self trained CNN model, the live webcam feed and no development tools like github or MLFlow. This time I want to use Pytorch, a different neural network that uses opencv Face masks and Github with MLFlow for project development. This will most likely be 100% python. I have the intention to rewrite this into an application in C# at a later stage.
 
+I am using the GPU accelerated version of pytorch (CUDA 13.0). This causes my GPU to be utilized for the training of the ML/AI model. The reason this is effective is because the training of a Neural Network involves a lot of matrix/tensor calculations. The GPU is simply more effective in solving this math than a CPU is.
+
 ## The goal
 To be able to consistently control a simple 2D game based on headmovements recorded live with my webcam. For the game I will take Stardew Valley. This is a game I already own, is played very casually and has relatively simple controls. 
 
