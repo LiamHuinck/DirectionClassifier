@@ -24,13 +24,22 @@ I will have some files like a pre-commit-config to apply black formatter, mlflow
 ### MLFlow example file
 This repository will include an example of how to use mlflow a machine learning toolkit to implement CI/CD and versioning for ML/AI models.
 I am going to show the progress of using MLflow since part of the project is to get some hands-on experience for this.
-This first try-out is based on the following reference tutorial: https://mlflow.org/docs/latest/ml/getting-started/deep-learning/
+This first try-out is based on the following reference tutorial: https://mlflow.org/docs/latest/ml/getting-started/deep-learning/. See the end of this README.md for the tutorial of using the example with pytorch.
 
 ### Back-end code
 The repository has a src folder that contains all the functions used for the project.
 
+# Step-by-step for project
 
-# How to initialize the MLflow process
+
+
+
+
+
+
+# MLflow example pytorch step-by-step guide
+
+***DISCLAIMER, THE CODE BELOW IS NOT MINE, I AM JUST USING IT AS AN EXAMPLE TO LATER INCORPERATE AND THIS IS TO DOCUMENT THE PROCESS FOR MYSELF THE OFFICIAL MLFLOW GUIDE CAN BE FOUND HERE https://mlflow.org/docs/latest/ml/getting-started/deep-learning/***
 
 We can start a MLflow local server using the following command in a bash script: ``` mlflow server --port 5000```
 This will start a local hosted server with the MLflow UI that lets you explore the trained model's metrics as well as other information.
@@ -52,4 +61,76 @@ with mlflow.start_run():
     print("✓ Successfully connected to MLflow!")
 ```
 
-After this we can implement it in our training 
+After this we can implement it in our training as is done in MlflowExample/Example_pytorch.py.
+We start by setting certain information, like the experiment to log under, wether to include the system metrics and how often to sample these. See below for the settings used:
+
+```python
+import mlflow
+
+# The set_experiment API creates a new experiment if it doesn't exist.
+mlflow.set_experiment("Deep Learning Experiment")
+
+# IMPORTANT: Enable system metrics monitoring
+mlflow.config.enable_system_metrics_logging()
+mlflow.config.set_system_metrics_sampling_interval(1)
+```
+
+There is some settings and dta being loaded after this however since this is not unique to the functioning of MLflow I will skip over this. The training can then be started with the following code:
+
+```python
+params = {
+    "epochs": 5,
+    "learning_rate": 1e-3,
+    "batch_size": 64,
+    "optimizer": "SGD",
+    "model_type": "MLP",
+    "hidden_units": [512, 512],
+}
+
+with mlflow.start_run() as run:
+    # Log training parameters
+    mlflow.log_params(params)
+```
+
+This makes sure to run the training with the mlflow and to log the training parameters used for the model. This can be made as extensively as desired to my understanding I will most likely try to play with this to see how extensive the logging can be of the training parameters.
+
+Next the batch metrics are logged for every 100 batches using the following code:
+
+```python
+if batch_idx % 100 == 0:
+    batch_loss = train_loss / (batch_idx + 1)
+    batch_acc = 100.0 * correct / total
+    mlflow.log_metrics(
+        {"batch_loss": batch_loss, "batch_accuracy": batch_acc},
+        step=epoch * len(train_loader) + batch_idx,
+    )
+```
+
+Calculating the batch metrics can be important since the model is adjusted based on the batches and not the individual differences. It gives us a better idea about the training process.
+
+Then the epoch metrics are logged:
+```python
+# Log epoch metrics
+mlflow.log_metrics(
+    {
+        "train_loss": epoch_loss,
+        "train_accuracy": epoch_acc,
+        "val_loss": val_loss,
+        "val_accuracy": val_acc,
+    },
+    step=epoch,
+)
+```
+These let you compare the epochs to each other, you will not improve the model on each epoch, it might help you find issues in the training process.
+A log checkoutpoint is introduced at the end of each epoch, this can later be check in the MLflow UI, see the code:
+```python
+# Log checkpoint at the end of each epoch
+mlflow.pytorch.log_model(model, name=f"checkpoint_{epoch}")
+```
+
+
+Finally we log the final trained model using the code below:
+```python
+# Log the final trained model
+model_info = mlflow.pytorch.log_model(model, name="final_model")
+```
