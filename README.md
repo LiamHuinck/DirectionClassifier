@@ -122,7 +122,7 @@ mlflow.log_metrics(
 )
 ```
 These let you compare the epochs to each other, you will not improve the model on each epoch, it might help you find issues in the training process.
-A log checkoutpoint is introduced at the end of each epoch, this can later be check in the MLflow UI, see the code:
+A log checkoutpoint is introduced at the end of each epoch, this can later be checked in the MLflow UI, see the code:
 ```python
 # Log checkpoint at the end of each epoch
 mlflow.pytorch.log_model(model, name=f"checkpoint_{epoch}")
