@@ -6,9 +6,11 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "mlflow>=3.10.1",
-    "torch==2.11.*",
+    "opencv-python>=4.13.0.92",
+    "torch==2.11.0+cu130",
     "torchvision>=0.26.0",
 ]
+
 
 [tool.black]
 line-length = 79
@@ -26,46 +28,11 @@ exclude = '''
   | dist
 )/
 '''
-[project.optional-dependencies]
-cpu = [
-  "torch==2.11.*",
-  "torchvision>=0.26.0",
-]
-cu130 = [
-  "torch==2.11.*",
-  "torchvision>=0.26.0",
-]
-
-[tool.uv]
-conflicts = [
-  [
-    { extra = "cpu" },
-    { extra = "cu130" },
-  ],
-]
-
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-cpu", extra = "cpu" },
-  { index = "pytorch-cu130", extra = "cu130" },
-]
-torchvision = [
-  { index = "pytorch-cpu", extra = "cpu" },
-  { index = "pytorch-cu130", extra = "cu130" },
-]
 
 [[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cu130"
 url = "https://download.pytorch.org/whl/cu130"
-explicit = true
 
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
-    "ty>=0.0.26",
 ]
